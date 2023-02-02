@@ -1,40 +1,46 @@
-work_dir: ./workdir/MSRGCN/h36m/test1
+work_dir: ./workdir/MSRGCN/h36m/test1 # 结果保存路径
 
 # feeder
-feeder:
+exp_name: h36m # h36m, cmu...
+h36m:
+  feeder: feeder.MSRGCN.datas.h36m.H36MMotionDataset
+  data_path: /share/zhangjinrong//human_motion_prediction/data/h3.6m/dataset
+  train_manner: "all" # ["walking", "eating", "smoking", "discussion", "directions","greeting", "phoning", "posing", "purchases", "sitting", "sittingdown", "takingphoto", "waiting", "walkingdog", "walkingtogether"]
+  test_manner: "all" # ["walking", "eating", "smoking", "discussion", "directions","greeting", "phoning", "posing", "purchases", "sitting", "sittingdown", "takingphoto", "waiting", "walkingdog", "walkingtogether"]
+cmu:
+  feeder: feeder.MSRGCN.datas.cmu.CMUMotionDataset # 需要改成
+  data_path: /share/zhangjinrong//human_motion_prediction/data/cmu
+  train_manner: "all" # ["basketball", "basketball_signal", "directing_traffic", "jumping", "running", "soccer", "walking", "washwindow"]
+  test_manner: "all"
+subs: [[1, 6, 7, 8, 9], [5], [11]] # 对应data_path下的数据文件夹
+train_split: 0 # 对应subs中的选项
+teat_split: 1
+validation: 2
+sample_rate: 2 # 原版为2，隔一帧抽一帧，必须要隔一阵抽，否则训练不收敛
 
+# modle
+modle: models.MSRGCN.MSRGCN
 
-# train
-
-
-
-
-
-
-
-
-
-
-
-
-
-ml_loss: 0.1
-platform: getpass.getuser()
-exp_name: h36m # h36m, cmu, 3dqm
-p_dropout: 0.1
-p_dropout: 0.1
-train_batch_size: 16
-test_batch_size: 128
+# optim
 lr: 2e-4
 lr_decay: 0.98
 n_epoch: 5000
 leaky_c: 0.2 # 原版为0.2
-sample_rate: 2 # 原版为2，隔一帧抽一帧，必须要隔一阵抽，否则训练不收敛
-test_manner: test_manner
+
+# train
+ml_weight: 0.3 # 这个是给zjr添加到原有二范数损失的measure度量损失中调整比例的超参，先给个1看一下
+p_dropout: 0.1
+train_batch_size: 16
+test_batch_size: 128
 train_manner: train_manner
 input_n: input_n
 output_n: output_n
 seq_len: input_n + output_n
-# seq_len_s: input_n + output_n_s
 dct_n: dct_n
-# dct_n_s: dct_n_s
+
+# test
+test_manner: test_manner
+
+# computer
+device: 0
+num_works: 8
