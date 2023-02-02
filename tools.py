@@ -4,7 +4,7 @@ import yaml
 import argparse
 
 def import_class(import_str):
-    # 用字符形式更加方便地调用
+    # 用字符形式更加方便地调用自己声明的类
     mod_str, _sep, class_str = import_str.rpartition('.')
     __import__(mod_str)
     try:
@@ -13,12 +13,14 @@ def import_class(import_str):
         raise ImportError('Class %s cannot be found (%s)' % (class_str, traceback.format_exception(*sys.exc_info())))
 
 def read_yaml(path):
+    # 读取yaml文件并转化为字典
     file = open(path, 'r', encoding='utf-8')
     string = file.read()
     dict = yaml.safe_load(string)
     return dict
 
 def read_args():
+    # 读取命令行中的参数
     parser = argparse.ArgumentParser(description='Arguments for running the scripts')
 
     parser = argparse.ArgumentParser(description='manual to this script')
@@ -41,6 +43,7 @@ def read_args():
     return args
 
 def get_args(path):
+    # 合并命令行和yaml文件中的参数，命令行中的参数优先
     args = read_args() # 读取命令行指定的参数
     opt = vars(args) # 将命令行中的参数转化为字典
     args = read_yaml(path) # 读取yaml文件的中参数并转化为字典
