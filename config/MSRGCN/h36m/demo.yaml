@@ -36,11 +36,11 @@ train_manner: train_manner
 input_n: input_n
 output_n: output_n
 seq_len: input_n + output_n
-dct_n: dct_n
+dct_n: dct_n # 与sqe_len相同
 
 # test
 test_manner: test_manner
 
 # computer
-device: 0
+device: "0"
 num_works: 8
