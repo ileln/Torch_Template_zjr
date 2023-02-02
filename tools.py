@@ -2,6 +2,7 @@ import sys
 import traceback
 import yaml
 import argparse
+import torch
 
 def import_class(import_str):
     # 用字符形式更加方便地调用自己声明的类
@@ -49,4 +50,15 @@ def get_args(path):
     args = read_yaml(path) # 读取yaml文件的中参数并转化为字典
     opt.update(args) # 合并字典
     args = opt # 更新字典
-    
+
+def seed_torch(seed=3450):
+    # 设置torch随机种子和cudnn加速
+    # random.seed(seed)
+    # os.environ['PYTHONHASHSEED'] = str(seed)
+    # np.random.seed(seed)
+    # torch.manual_seed(seed)
+    # torch.cuda.manual_seed(seed)
+    # torch.cuda.manual_seed_all(seed) # if you are using multi-GPU.
+    torch.backends.cudnn.benchmark = True
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.enabled = True
