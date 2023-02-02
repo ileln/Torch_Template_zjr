@@ -3,6 +3,7 @@ import traceback
 import yaml
 import argparse
 import torch
+import os
 
 # 代码工具
 def import_class(import_str):
@@ -13,6 +14,20 @@ def import_class(import_str):
         return getattr(sys.modules[mod_str], class_str)
     except AttributeError:
         raise ImportError('Class %s cannot be found (%s)' % (class_str, traceback.format_exception(*sys.exc_info())))
+
+class DictAction(argparse.Action):
+    # CTR中的覆盖词典操作
+    def __init__(self, option_strings, dest, nargs=None, **kwargs):
+        if nargs is not None:
+            raise ValueError("nargs not allowed")
+        super(DictAction, self).__init__(option_strings, dest, **kwargs)
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        input_dict = eval(f'dict({values})')  #pylint: disable=W0123
+        output_dict = getattr(namespace, self.dest)
+        for k in input_dict:
+            output_dict[k] = input_dict[k]
+        setattr(namespace, self.dest, output_dict)
 
 # 参数工具
 def read_yaml(path):
@@ -28,20 +43,32 @@ def read_args():
 
     parser = argparse.ArgumentParser(description='manual to this script')
     parser.add_argument('--config', type=str, default="config/MSRGCN/h36m/demo.yaml", help="配置文件")
+    parser.add_argument('--work_dir', type=str, default="./workdir/MSRGCN/h36m/test1", help="实验文件保存路径")
     parser.add_argument('--exp_name', type=str, default="h36m", help="h36m / cmu")
+    parser.add_argument('--h36m', type=str, action=DictAction, default=dict(), help="the arguments of data loader for h36m")
+    parser.add_argument('--cmu', type=str, action=DictAction, default=dict(), help="the arguments of data loader for cmu")
+    parser.add_argument('--subs', type=list, default=[[1, 6, 7, 8, 9], [5], [11]], help="数据集使用")
+    parser.add_argument('--train_split', type=int, default=0, help="对应subs中的选项")
+    parser.add_argument('--teat_split', type=int, default=1, help="")
+    parser.add_argument('--validation', type=int, default=2, help="")
+    parser.add_argument('--sample_rate', type=int, default=2, help="抽帧")
+    parser.add_argument('--modle', type=str, default='models.MSRGCN.MSRGCN', help="模型选择")
+    parser.add_argument('--lr', type=float, default=2e-4, help="")
+    parser.add_argument('--lr_decay', type=float, default=0.98, help="")
+    parser.add_argument('--n_epoch', type=int, default=5000)
+    parser.add_argument('--leaky_c', type=float, default=0.2)
+    parser.add_argument('--ml_weight',type=float, default=0.3)
+    parser.add_argument('--p_dropout',type=float, default=0.1, help="")
+    parser.add_argument('--train_batch_size', type=int, default=16, help="")
+    parser.add_argument('--test_batch_size', type=int, default=128, help="")
     parser.add_argument('--input_n', type=int, default=10, help="")
     parser.add_argument('--output_n', type=int, default=25, help="")
+    parser.add_argument('--seq_len', type=int, default=35, help="")
     parser.add_argument('--dct_n', type=int, default=35, help="")
-    parser.add_argument('--device', type=str, default="0", help="")
-    parser.add_argument('--num_works', type=int, default=0)
-    # parser.add_argument('--train_manner', type=str, default="all", help="all / 8")
-    parser.add_argument('--test_manner', type=str, action="append")
-    parser.add_argument('--train_manner', type=str, action="append")
-    # parser.add_argument('--train_manner', type=str)
-    # parser.add_argument('--debug_step', type=int, default=1, help="")
-    parser.add_argument('--is_train', type=bool, default=True, help="")
-    parser.add_argument('--is_load', type=bool, default='', help="")
-    parser.add_argument('--model_path', type=str, default="", help="")
+    parser.add_argument('--device', type=str, default='0', help="")
+    parser.add_argument('--num_works', type=int, default=8, help="")
+    parser.add_argument('--seed', type=int, default=3450, help="")
+
 
     # args = parser.parse_args()
     return parser
@@ -52,15 +79,28 @@ def get_args(path):
     p = parser.parse_args()
     if p.config is not None:
         with open(p.config, 'r') as f:
-            default_arg = yaml.load(f)
+            default_arg = yaml.safe_load(f)
+            # print(default_arg)
+        # dic_p = vars(p)
         key = vars(p).keys()
         for k in default_arg.keys():
             if k not in key:
                 print('WRONG ARG: {}'.format(k))
                 assert (k in key)
+        # default_arg.update(dic_p)
         parser.set_defaults(**default_arg)
+    # args = argparse.Namespace(**default_arg)
     args = parser.parse_args()
     return args
+
+def save_args(args):
+    # 保存参数
+    arg_dict = vars(args)
+    if not os.path.exists(args.work_dir):
+        os.makedirs(args.work_dir)
+    with open('{}/config.yaml'.format(args.work_dir), 'w') as f:
+        f.write(f"# command line: {' '.join(sys.argv)}\n\n")
+        yaml.dump(arg_dict, f)
 
 # 训练工具
 def seed_torch(seed=3450):
@@ -81,3 +121,4 @@ def lr_decay(optimizer, lr_now, gamma):
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
     return lr
+

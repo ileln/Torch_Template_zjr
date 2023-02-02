@@ -9,5 +9,4 @@ class Runner():
         # 参数
         self.start_epoch = 1
         self.best_accuracy = 1e15
-        
-
+        self.output_n = args.output_n

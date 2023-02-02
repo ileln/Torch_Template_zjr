@@ -1,4 +1,4 @@
-work_dir: ./workdir/MSRGCN/h36m/test1 # 结果保存路径
+work_dir: work_dir/MSRGCN/h36m/test1 # 结果保存路径
 
 # feeder
 exp_name: h36m # h36m, cmu...
@@ -32,14 +32,12 @@ ml_weight: 0.3 # 这个是给zjr添加到原有二范数损失的measure度量�
 p_dropout: 0.1
 train_batch_size: 16
 test_batch_size: 128
-train_manner: train_manner
-input_n: input_n
-output_n: output_n
-seq_len: input_n + output_n
-dct_n: dct_n # 与sqe_len相同
+input_n: 10
+output_n: 25
+seq_len: 35 # input_n + output_n
+dct_n: 35 # 与sqe_len相同
 
 # test
-test_manner: test_manner
 
 # computer
 device: "0"
