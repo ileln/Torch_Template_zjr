@@ -14,7 +14,7 @@ parser.add_argument('--test_manner', type=str, action="append")
 parser.add_argument('--train_manner', type=str, action="append")
 # parser.add_argument('--train_manner', type=str)
 parser.add_argument('--debug_step', type=int, default=1, help="")
-parser.add_argument('--is_train', type=bool, default='', help="")
+parser.add_argument('--is_train', type=bool, default=True, help="")
 parser.add_argument('--is_load', type=bool, default='', help="")
 parser.add_argument('--model_path', type=str, default="", help="")
 

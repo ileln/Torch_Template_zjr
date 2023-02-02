@@ -1,0 +1,40 @@
+work_dir: ./workdir/MSRGCN/h36m/test1
+
+# feeder
+feeder:
+
+
+# train
+
+
+
+
+
+
+
+
+
+
+
+
+
+ml_loss: 0.1
+platform: getpass.getuser()
+exp_name: h36m # h36m, cmu, 3dqm
+p_dropout: 0.1
+p_dropout: 0.1
+train_batch_size: 16
+test_batch_size: 128
+lr: 2e-4
+lr_decay: 0.98
+n_epoch: 5000
+leaky_c: 0.2 # 原版为0.2
+sample_rate: 2 # 原版为2，隔一帧抽一帧，必须要隔一阵抽，否则训练不收敛
+test_manner: test_manner
+train_manner: train_manner
+input_n: input_n
+output_n: output_n
+seq_len: input_n + output_n
+# seq_len_s: input_n + output_n_s
+dct_n: dct_n
+# dct_n_s: dct_n_s
