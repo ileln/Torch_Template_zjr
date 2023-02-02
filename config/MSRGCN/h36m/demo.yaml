@@ -44,3 +44,4 @@ test_manner: test_manner
 # computer
 device: "0"
 num_works: 8
+seed: 3450 # 设置torch随机种子
