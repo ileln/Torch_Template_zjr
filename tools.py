@@ -52,11 +52,16 @@ def read_args():
     parser.add_argument('--teat_split', type=int, default=1, help="")
     parser.add_argument('--validation', type=int, default=2, help="")
     parser.add_argument('--sample_rate', type=int, default=2, help="抽帧")
+    parser.add_argument('--down_key', type=list, default=[], help="")
+    parser.add_argument('--global_max', type=int, default=0, help="")
+    parser.add_argument('--global_min', type=int, default=0, help="")
+    parser.add_argument('--debug_step', type=int, default=1, help="")
     parser.add_argument('--modle', type=str, default='models.MSRGCN.MSRGCN', help="模型选择")
     parser.add_argument('--lr', type=float, default=2e-4, help="")
     parser.add_argument('--lr_decay', type=float, default=0.98, help="")
     parser.add_argument('--n_epoch', type=int, default=5000)
     parser.add_argument('--leaky_c', type=float, default=0.2)
+    parser.add_argument('--optimizer', type=str, default='optim.Adam')
     parser.add_argument('--ml_weight',type=float, default=0.3)
     parser.add_argument('--p_dropout',type=float, default=0.1, help="")
     parser.add_argument('--train_batch_size', type=int, default=16, help="")
@@ -65,7 +70,7 @@ def read_args():
     parser.add_argument('--output_n', type=int, default=25, help="")
     parser.add_argument('--seq_len', type=int, default=35, help="")
     parser.add_argument('--dct_n', type=int, default=35, help="")
-    parser.add_argument('--device', type=str, default='0', help="")
+    parser.add_argument('--device', type=int, default=0, help="")
     parser.add_argument('--num_works', type=int, default=8, help="")
     parser.add_argument('--seed', type=int, default=3450, help="")
 
@@ -122,3 +127,8 @@ def lr_decay(optimizer, lr_now, gamma):
         param_group['lr'] = lr
     return lr
 
+def lr_decay(optimizer, lr_now, gamma):
+    lr = lr_now * gamma
+    for param_group in optimizer.param_groups:
+        param_group['lr'] = lr
+    return lr

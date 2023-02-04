@@ -1,0 +1,40 @@
+work_dir: work_dir/MSRGCN/h36m/test1 # 结果保存路径
+
+# feeder
+exp_name: cmu # h36m, cmu...
+feeder: feeder.MSRGCN.datas.cmu.CMUMotionDataset # 需要改成
+data_path: /share/zhangjinrong//human_motion_prediction/data/cmu
+train_manner: "all" # ["basketball", "basketball_signal", "directing_traffic", "jumping", "running", "soccer", "walking", "washwindow"]
+test_manner: "all"
+subs: [[1, 6, 7, 8, 9], [5], [11]] # 对应data_path下的数据文件夹
+train_split: 0 # 对应subs中的选项
+teat_split: 1
+validation: 2
+sample_rate: 2 # 原版为2，隔一帧抽一帧，必须要隔一阵抽，否则训练不收敛
+
+# model
+model: models.MSRGCN.MSRGCN
+
+# optim
+lr: 2e-4
+lr_decay: 0.98
+n_epoch: 5000
+leaky_c: 0.2 # 原版为0.2
+optimizer: optim.Adam
+
+# train
+ml_weight: 0.3 # 这个是给zjr添加到原有二范数损失的measure度量损失中调整比例的超参，先给个1看一下
+p_dropout: 0.1
+train_batch_size: 16
+test_batch_size: 128
+input_n: 10
+output_n: 25
+seq_len: 35 # input_n + output_n
+dct_n: 35 # 与sqe_len相同
+
+# test
+
+# computer
+device: 0
+num_works: 8
+seed: 3450 # 设置torch随机种子

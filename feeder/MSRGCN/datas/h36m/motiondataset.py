@@ -17,7 +17,7 @@ from ..dct import get_dct_matrix, dct_transform_numpy
 
 class MotionDataset(Dataset):
 
-    def __init__(self, path_to_data, actions, mode_name="train", input_n=20, output_n=10, dct_used=15, split=0, sample_rate=2, down_key=[('p22', 'p12', []), ('p12', 'p7', []), ('p7', 'p4', [])], test_manner="all", global_max=0, global_min=0, device="cuda:0", debug_step=100):
+    def __init__(self, path_to_data, actions, mode_name="train", train_manner="all", test_manner="all", train_split=0, teat_split=1, validation_split=2, input_n=20, output_n=10, dct_used=15, sample_rate=2, Index2212=[], Index127=[], Index74=[], global_max=0, global_min=0, device="cuda:0", debug_step=100, subs=[]):
         """
         :param path_to_data:
         :param actions:
@@ -28,9 +28,17 @@ class MotionDataset(Dataset):
         :param sample_rate:
         """
         self.path_to_data = path_to_data
-        self.split = split
+        # self.load_mode = load_mode # 设置加载模式，0是训练，1是测试，2是验证
+        if mode_name == 'train':
+            actions = train_manner
+            split = train_split
+        elif mode_name == 'test':
+            # actions = test_manner
+            actions = actions
+            split = teat_split
 
-        subs = [[1, 6, 7, 8, 9], [5], [11]]
+        down_key=[('p22', 'p12', Index2212), ('p12', 'p7', Index127), ('p7', 'p4', Index74)]
+        # subs = [[1, 6, 7, 8, 9], [5], [11]]
         # subs = [[1], [5], [11]] # 训练集和测试集选择
         # subs = [[1, 6, 7, 8, 9, 11], [5]]
         # print(actions)
@@ -60,6 +68,7 @@ class MotionDataset(Dataset):
         self.global_max = global_max
         self.global_min = global_min
 
+        # 求全局最大最小值
         if mode_name == 'train':
             gt_max = []
             gt_min = []

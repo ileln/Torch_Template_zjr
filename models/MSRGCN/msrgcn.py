@@ -12,7 +12,7 @@
 import torch
 import torch.nn as nn
 from .layers import SingleLeftLinear, SingleRightLinear, PreGCN, GC_Block, PostGCN
-
+from feeder.MSRGCN.datas.dct import reverse_dct_torch
 
 class MSRGCN(nn.Module):
     def __init__(self, p_dropout, leaky_c=0.2, final_out_noden=22, input_feature=35):
@@ -215,6 +215,9 @@ class MSRGCN(nn.Module):
 
         fusion_fourth = self.fourth_extra(bottom_right) + bottom_right  # 残差连接
         pred_fourth = self.fourth_out(fusion_fourth) + x_p4  # 大残差连接
+
+        # outputs = {"p22": pred_first, "p12": pred_second, "p7": pred_third, "p4": pred_fourth}
+
 
         return {
             "p22": pred_first, "p12": pred_second, "p7": pred_third, "p4": pred_fourth
