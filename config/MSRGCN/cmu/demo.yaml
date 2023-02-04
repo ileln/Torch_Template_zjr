@@ -1,4 +1,4 @@
-work_dir: work_dir/MSRGCN/h36m/test1 # 结果保存路径
+work_dir: work_dir/MSRGCN/cmu/test2 # 结果保存路径
 
 # feeder
 exp_name: cmu # h36m, cmu...
@@ -11,6 +11,26 @@ train_split: 0 # 对应subs中的选项
 teat_split: 1
 validation: 2
 sample_rate: 2 # 原版为2，隔一帧抽一帧，必须要隔一阵抽，否则训练不收敛
+global_max: 0
+global_min: 0
+debug_step: 1
+
+# key_down
+Index2212: [[0], [1, 2, 3], [4], [5, 6, 7], [8, 9], [10, 11, 12], [13], [14, 15], [16, 17, 18], [19], [20, 21], [22, 23, 24]]  # 其实是 Index2512, 为了保持统一没改名
+Index127: [[0, 1], [2, 3], [4, 5], [6, 7], [7, 8], [9, 10], [10, 11]]
+Index74: [[0, 2], [1, 2], [3, 4], [5, 6]]
+
+# 骨骼点选择
+origin_noden: 38
+final_out_noden: 25
+dim_used_3d: [3, 4, 5, 6, 9, 10, 11, 12, 14, 15, 17, 18, 19, 21, 22, 23, 25, 26, 28, 30, 31, 32, 34, 35, 37]
+dim_repeat_22: [9, 9, 9, 15, 15, 21, 21]
+dim_repeat_32: [16, 20, 29, 24, 27, 33, 36]
+
+# 画图
+I22_plot: [8, 0, 1, 2, 8, 4, 5, 6, 8, 9, 10, 11, 9, 13, 14, 15, 16, 15, 9, 19, 20, 21, 22, 21]
+J22_plot: [0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+LR22_plot: [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]
 
 # model
 model: models.MSRGCN.MSRGCN
@@ -21,9 +41,11 @@ lr_decay: 0.98
 n_epoch: 5000
 leaky_c: 0.2 # 原版为0.2
 optimizer: optim.Adam
+train_loss: losses.loss.L2NormLoss_train
+test_loss: losses.loss.L2NormLoss_test
 
 # train
-ml_weight: 0.3 # 这个是给zjr添加到原有二范数损失的measure度量损失中调整比例的超参，先给个1看一下
+# ml_weight: 0.3 # 这个是给zjr添加到原有二范数损失的measure度量损失中调整比例的超参，先给个1看一下
 p_dropout: 0.1
 train_batch_size: 16
 test_batch_size: 128
@@ -35,6 +57,6 @@ dct_n: 35 # 与sqe_len相同
 # test
 
 # computer
-device: 0
+device: '0'
 num_works: 8
 seed: 3450 # 设置torch随机种子

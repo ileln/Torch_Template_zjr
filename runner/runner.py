@@ -17,7 +17,7 @@ class Runner():
         super(Runner, self).__init__()
 
         # 参数
-        self.args = args # 将参数命名空间转化为字典
+        self.args = args
         self.start_epoch = 1
         self.best_accuracy = 1e15
         self.output_n = self.args.output_n

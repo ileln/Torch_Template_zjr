@@ -37,65 +37,57 @@ def read_yaml(path):
     dict = yaml.safe_load(string)
     return dict
 
-def read_args():
-    # 读取命令行中的参数
-    parser = argparse.ArgumentParser(description='Arguments for running the scripts')
+# def read_args():
+#     # 读取命令行中的参数
+#     parser = argparse.ArgumentParser(description='Arguments for running the scripts')
 
-    parser = argparse.ArgumentParser(description='manual to this script')
-    parser.add_argument('--config', type=str, default="config/MSRGCN/h36m/demo.yaml", help="配置文件")
-    parser.add_argument('--work_dir', type=str, default="./workdir/MSRGCN/h36m/test1", help="实验文件保存路径")
-    parser.add_argument('--exp_name', type=str, default="h36m", help="h36m / cmu")
-    parser.add_argument('--h36m', type=str, action=DictAction, default=dict(), help="the arguments of data loader for h36m")
-    parser.add_argument('--cmu', type=str, action=DictAction, default=dict(), help="the arguments of data loader for cmu")
-    parser.add_argument('--subs', type=list, default=[[1, 6, 7, 8, 9], [5], [11]], help="数据集使用")
-    parser.add_argument('--train_split', type=int, default=0, help="对应subs中的选项")
-    parser.add_argument('--teat_split', type=int, default=1, help="")
-    parser.add_argument('--validation', type=int, default=2, help="")
-    parser.add_argument('--sample_rate', type=int, default=2, help="抽帧")
-    parser.add_argument('--down_key', type=list, default=[], help="")
-    parser.add_argument('--global_max', type=int, default=0, help="")
-    parser.add_argument('--global_min', type=int, default=0, help="")
-    parser.add_argument('--debug_step', type=int, default=1, help="")
-    parser.add_argument('--modle', type=str, default='models.MSRGCN.MSRGCN', help="模型选择")
-    parser.add_argument('--lr', type=float, default=2e-4, help="")
-    parser.add_argument('--lr_decay', type=float, default=0.98, help="")
-    parser.add_argument('--n_epoch', type=int, default=5000)
-    parser.add_argument('--leaky_c', type=float, default=0.2)
-    parser.add_argument('--optimizer', type=str, default='optim.Adam')
-    parser.add_argument('--ml_weight',type=float, default=0.3)
-    parser.add_argument('--p_dropout',type=float, default=0.1, help="")
-    parser.add_argument('--train_batch_size', type=int, default=16, help="")
-    parser.add_argument('--test_batch_size', type=int, default=128, help="")
-    parser.add_argument('--input_n', type=int, default=10, help="")
-    parser.add_argument('--output_n', type=int, default=25, help="")
-    parser.add_argument('--seq_len', type=int, default=35, help="")
-    parser.add_argument('--dct_n', type=int, default=35, help="")
-    parser.add_argument('--device', type=int, default=0, help="")
-    parser.add_argument('--num_works', type=int, default=8, help="")
-    parser.add_argument('--seed', type=int, default=3450, help="")
+#     parser = argparse.ArgumentParser(description='manual to this script')
+#     parser.add_argument('--config', type=str, default="config/MSRGCN/h36m/demo.yaml", help="配置文件")
+#     parser.add_argument('--work_dir', type=str, default="./workdir/MSRGCN/h36m/test1", help="实验文件保存路径")
+#     parser.add_argument('--exp_name', type=str, default="h36m", help="h36m / cmu")
+#     parser.add_argument('--h36m', type=str, action=DictAction, default=dict(), help="the arguments of data loader for h36m")
+#     parser.add_argument('--cmu', type=str, action=DictAction, default=dict(), help="the arguments of data loader for cmu")
+#     parser.add_argument('--subs', type=list, default=[[1, 6, 7, 8, 9], [5], [11]], help="数据集使用")
+#     parser.add_argument('--train_split', type=int, default=0, help="对应subs中的选项")
+#     parser.add_argument('--teat_split', type=int, default=1, help="")
+#     parser.add_argument('--validation', type=int, default=2, help="")
+#     parser.add_argument('--sample_rate', type=int, default=2, help="抽帧")
+#     parser.add_argument('--down_key', type=list, default=[], help="")
+#     parser.add_argument('--global_max', type=int, default=0, help="")
+#     parser.add_argument('--global_min', type=int, default=0, help="")
+#     parser.add_argument('--debug_step', type=int, default=1, help="")
+#     parser.add_argument('--modle', type=str, default='models.MSRGCN.MSRGCN', help="模型选择")
+#     parser.add_argument('--lr', type=float, default=2e-4, help="")
+#     parser.add_argument('--lr_decay', type=float, default=0.98, help="")
+#     parser.add_argument('--n_epoch', type=int, default=5000)
+#     parser.add_argument('--leaky_c', type=float, default=0.2)
+#     parser.add_argument('--optimizer', type=str, default='optim.Adam')
+#     parser.add_argument('--ml_weight',type=float, default=0.3)
+#     parser.add_argument('--p_dropout',type=float, default=0.1, help="")
+#     parser.add_argument('--train_batch_size', type=int, default=16, help="")
+#     parser.add_argument('--test_batch_size', type=int, default=128, help="")
+#     parser.add_argument('--input_n', type=int, default=10, help="")
+#     parser.add_argument('--output_n', type=int, default=25, help="")
+#     parser.add_argument('--seq_len', type=int, default=35, help="")
+#     parser.add_argument('--dct_n', type=int, default=35, help="")
+#     parser.add_argument('--device', type=str, default='0', help="")
+#     parser.add_argument('--num_works', type=int, default=8, help="")
+#     parser.add_argument('--seed', type=int, default=3450, help="")
 
 
-    # args = parser.parse_args()
-    return parser
+#     # args = parser.parse_args()
+#     return parser
 
-def get_args(path):
+def get_args(parser):
     # 合并命令行和yaml文件中的参数，命令行中的参数优先
-    parser = read_args() # 读取命令行指定的参数
     p = parser.parse_args()
     if p.config is not None:
         with open(p.config, 'r') as f:
             default_arg = yaml.safe_load(f)
-            # print(default_arg)
-        # dic_p = vars(p)
-        key = vars(p).keys()
-        for k in default_arg.keys():
-            if k not in key:
-                print('WRONG ARG: {}'.format(k))
-                assert (k in key)
-        # default_arg.update(dic_p)
-        parser.set_defaults(**default_arg)
-    # args = argparse.Namespace(**default_arg)
-    args = parser.parse_args()
+            print(default_arg)
+        dic_p = vars(p)
+        default_arg.update(dic_p)
+    args = argparse.Namespace(**default_arg)
     return args
 
 def save_args(args):

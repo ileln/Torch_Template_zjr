@@ -11,10 +11,10 @@ train_split: 0 # 对应subs中的选项
 teat_split: 1
 validation_split: 2
 sample_rate: 2 # 原版为2，隔一帧抽一帧，必须要隔一阵抽，否则训练不收敛
-down_key: [('p22', 'p12', self.cfg.Index2212), ('p12', 'p7', self.cfg.Index127), ('p7', 'p4', self.cfg.Index74)]
-global_max:
-global_min:
-debug_step:
+# down_key: [('p22', 'p12', self.cfg.Index2212), ('p12', 'p7', self.cfg.Index127), ('p7', 'p4', self.cfg.Index74)]
+global_max: 0
+global_min: 0
+debug_step: 1
 # down_key
 Index2212: [[0], [1, 2, 3], [4], [5, 6, 7], [8, 9], [10, 11], [12], [13], [14, 15, 16], [17], [18], [19, 20, 21]]
 Index127: [[0, 1], [2, 3], [4, 5], [6, 7], [7, 8], [9, 10], [10, 11]]
@@ -46,7 +46,7 @@ train_loss: losses.loss.L2NormLoss_train
 test_loss: losses.loss.L2NormLoss_test
 
 # train
-ml_weight: 0.3 # 这个是给zjr添加到原有二范数损失的measure度量损失中调整比例的超参，先给个1看一下
+# ml_weight: 0.3 # 这个是给zjr添加到原有二范数损失的measure度量损失中调整比例的超参，先给个1看一下
 p_dropout: 0.1
 train_batch_size: 16
 test_batch_size: 128
@@ -59,6 +59,6 @@ frame_ids: [1, 3, 7, 9, 13, 24]
 # test
 
 # computer
-device: 0
+device: '0'
 num_workers: 8
 seed: 3450 # 设置torch随机种子
