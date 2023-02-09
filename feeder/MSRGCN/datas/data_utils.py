@@ -712,7 +712,7 @@ def load_data_3d(path_to_dataset, subjects, actions, sample_rate, seq_len, devic
     complete_seq = []
     for subj in subjects:
         for action_idx in np.arange(len(actions)):
-            print(actions)
+            # print(actions)
             action = actions[action_idx]
             if not (subj == 5):
                 for subact in [1, 2]:  # subactions
@@ -726,7 +726,8 @@ def load_data_3d(path_to_dataset, subjects, actions, sample_rate, seq_len, devic
                     even_list = range(0, n, sample_rate)
                     num_frames = len(even_list)
                     the_sequence = np.array(action_sequence[even_list, :]) # 这一句是隔一帧抽一帧，减少视频大小
-                    the_seq = torch.from_numpy(the_sequence).float().cuda(device) # 将数据存到显卡上去
+                    # print("device", device)
+                    the_seq = torch.from_numpy(the_sequence).float().to(device) # 将数据存到显卡上去
                     # remove global rotation and translation
                     the_seq[:, 0:6] = 0 # 将前两个点置零
                     p3d = expmap2xyz_torch(the_seq)

@@ -13,7 +13,7 @@ from feeder.MSRGCN.datas import H36MMotionDataset, get_dct_matrix, reverse_dct_t
 
 # 运行器
 class Runner():
-    def __init__(self, args):
+    def __init__(self, args, **dic):
         super(Runner, self).__init__()
 
         # 参数
@@ -32,8 +32,8 @@ class Runner():
         # optimizer
         self.lr = self.args.lr
         Optimizer = import_class(self.args.optimizer) # 调用配置文件里设置的优化器
-        self.optimizer = Optimizer(self.model.paramenters(), lr = self.lr) # 将模型参数放入优化器中
-        Train_loss = import_class(self.args.tarin_loss)
+        self.optimizer = Optimizer(self.model.parameters(), lr = self.lr) # 将模型参数放入优化器中
+        Train_loss = import_class(self.args.train_loss)
         self.train_loss = Train_loss()
         Test_loss = import_class(self.args.test_loss)
         self.test_loss = Test_loss()
@@ -43,12 +43,12 @@ class Runner():
         self.dct_m = torch.from_numpy(dct_m).float()
         self.i_dct_m = torch.from_numpy(i_dct_m).float()
         if self.args.device != "cpu":
-            self.dct_m = self.dct_m.cuda(self.args.device, non_blocking=True)
-            self.i_dct_m = self.i_dct_m.cuda(self.args.device, non_blocking=True)
+            self.dct_m = self.dct_m.cuda(non_blocking=True)
+            self.i_dct_m = self.i_dct_m.cuda(non_blocking=True)
 
         # train_data
         DataFeeder = import_class(self.args.feeder)
-        self.train_dataset = DataFeeder(**vars(self.args), mode_name="train")
+        self.train_dataset = DataFeeder(**vars(self.args), mode_name="train", action=None)
         self.train_loader = DataLoader(dataset=self.train_dataset, batch_size=self.args.train_batch_size, shuffle=True, num_workers=self.args.num_workers, pin_memory=True)
         self.global_max = self.train_dataset.global_max # MSRGCN加载器下的全局最大最小值
         self.global_min = self.train_dataset.global_min # MSRGCN加载器下的全局最大最小值
@@ -56,7 +56,7 @@ class Runner():
         # test_data
         self.test_loader = dict()
         for act in define_actions(self.args.test_manner):
-            self.test_dataset = DataFeeder(**vars(self.args), mode_name="test", actions=act)
+            self.test_dataset = DataFeeder(**vars(self.args), mode_name="test", action=act, global_max=self.global_max, global_min=self.global_min)
             self.test_loader[act] = DataLoader(dataset=self.test_dataset, batch_size=self.args.test_batch_size, shuffle=False, num_workers=self.args.num_workers, pin_memory=
             True)
         
@@ -171,6 +171,8 @@ class Runner():
                     if act_idx == 0 and i == 0:
                         pred_seq = outputs['p22'].cpu().data.numpy()[0].reshape(self.args.final_out_noden, 3, self.args.seq_len)
                         gt_seq = gts['p22'].cpu().data.numpy()[0].reshape(self.args.final_out_noden, 3, self.args.seq_len)
+                        if not os.path.exists(os.path.join(self.args.work_dir, "images")):
+                            os.makedirs(os.path.join(self.args.work_dir, "images"))
                         for t in range(self.args.seq_len):
                             draw_pic_gt_pred(gt_seq[:, :, t], pred_seq[:, :, t], np.array(self.args.I22_plot), np.array(self.args.J22_plot), np.array(self.args.LR22_plot), os.path.join(self.args.work_dir, "images", f"{epoch}_{act}_{t}.png"))
 
@@ -201,10 +203,12 @@ class Runner():
 
             if average_train_loss < self.best_accuracy:
                 self.best_accuracy = average_train_loss
-                self.save(os.path.join(self.cfg.ckpt_dir, "models",
+                if not os.path.exists(os.path.join(self.args.work_dir, "models")):
+                    os.makedirs(os.path.join(self.args.work_dir, "models"))
+                self.save(os.path.join(self.args.work_dir, "models",
                                  '{}_in{}out{}dctn{}_best_epoch{}_err{:.4f}.pth'.format(self.args.exp_name, self.args.input_n, self.args.output_n, self.args.dct_n, epoch, average_train_loss)), self.best_accuracy, average_train_loss)
 
-            self.save(os.path.join(self.args.ckpt_dir, "models", '{}_in{}out{}dctn{}_last.pth'.format(self.args.exp_name, self.args.input_n, self.args.output_n, self.args.dct_n)), self.best_accuracy, average_train_loss)
+            self.save(os.path.join(self.args.work_dir, "models", '{}_in{}out{}dctn{}_last.pth'.format(self.args.exp_name, self.args.input_n, self.args.output_n, self.args.dct_n)), self.best_accuracy, average_train_loss)
 
             if epoch % 1 == 0:
                 loss_l2_test = self.test(epoch)

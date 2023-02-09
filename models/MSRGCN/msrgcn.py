@@ -15,7 +15,7 @@ from .layers import SingleLeftLinear, SingleRightLinear, PreGCN, GC_Block, PostG
 from feeder.MSRGCN.datas.dct import reverse_dct_torch
 
 class MSRGCN(nn.Module):
-    def __init__(self, p_dropout, leaky_c=0.2, final_out_noden=22, input_feature=35):
+    def __init__(self, p_dropout, leaky_c=0.2, final_out_noden=22, input_feature=35, **dic):
         super(MSRGCN, self).__init__()
         # 左半部分
         self.first_enhance = PreGCN(input_feature=input_feature, hidden_feature=64, node_n=final_out_noden * 3,
