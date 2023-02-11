@@ -195,3 +195,24 @@ class SingleRightLinear(nn.Module):
         y = self.act(y)
         y = self.do(y)
         return y
+
+
+class TransMsr(nn.Module):
+    def __init__(self, do_model=64, nhead=8, dim_feedforward=64, dropout=0.1, act="relu", batch_first=True, norm_first=True, num_layers=6):
+        super(TransMsr, self).__init__()
+        self.do_model = do_model
+        self.nhead = nhead
+        self.dim_feedforward = dim_feedforward
+        self.dropout = dropout
+        self.act = act
+        self.batch_first = batch_first
+        self.norm_first = norm_first
+        self.num_layers = num_layers
+        
+        trans_decoder_layer = nn.TransformerDecoderLayer(do_model=self.do_model, nhead=self.nhead, dim_feedforward=self.dim_feedforward, dropout=self.dropout, activation=self.act, batch_first=self.batch_first, norm_first=self.norm_first)
+        self.trans_decoder = nn.TransformerDecoder(decoder_layer=trans_decoder_layer, num_layers=self.num_layers)
+    
+    def forward(self, input):
+        out = self.trans_decoder(input, input)
+        
+        return out
