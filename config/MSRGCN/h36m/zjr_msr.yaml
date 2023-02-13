@@ -1,0 +1,66 @@
+work_dir: work_dir/MSRGCN/h36m/zjr_msr # 结果保存路径
+
+is_load: 0
+is_train: 1
+# feeder
+exp_name: h36m # h36m, cmu...
+feeder: feeder.MSRGCN.datas.h36m.H36MMotionDataset
+path_to_data: /share/zhangjinrong//human_motion_prediction/data/h3.6m/dataset
+train_manner: "all" # ["walking", "eating", "smoking", "discussion", "directions","greeting", "phoning", "posing", "purchases", "sitting", "sittingdown", "takingphoto", "waiting", "walkingdog", "walkingtogether"]
+test_manner: "all" # ["walking", "eating", "smoking", "discussion", "directions","greeting", "phoning", "posing", "purchases", "sitting", "sittingdown", "takingphoto", "waiting", "walkingdog", "walkingtogether"]
+subs: [[1, 6, 7, 8, 9], [5], [11]] # 对应data_path下的数据文件夹[[1, 6, 7, 8, 9], [5], [11]]
+train_split: 0 # 对应subs中的选项
+teat_split: 1
+validation_split: 2
+sample_rate: 2 # 原版为2，隔一帧抽一帧，必须要隔一阵抽，否则训练不收敛
+# down_key: [('p22', 'p12', self.cfg.Index2212), ('p12', 'p7', self.cfg.Index127), ('p7', 'p4', self.cfg.Index74)]
+debug_step: 1
+# down_key
+Index2212: [[0], [1, 2, 3], [4], [5, 6, 7], [8, 9], [10, 11], [12], [13], [14, 15, 16], [17], [18], [19, 20, 21]]
+Index127: [[0, 1], [2, 3], [4, 5], [6, 7], [7, 8], [9, 10], [10, 11]]
+Index74: [[0, 2], [1, 2], [3, 4], [5, 6]]
+
+# 骨骼点选择
+origin_noden: 32
+final_out_noden: 22
+dim_used_3d: [2, 3, 4, 5, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 19, 21, 22, 25, 26, 27, 29, 30]
+dim_repeat_22: [9, 9, 14, 16, 19, 21]
+dim_repeat_32: [16, 24, 20, 23, 28, 31]
+
+# 画图
+I22_plot: [8, 0, 1, 2, 8, 4, 5, 6, 8, 9, 10, 9, 12, 13, 14, 14, 9, 17, 18, 19, 19]
+J22_plot: [0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+LR22_plot: [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0]
+
+
+# model
+model: models.MSRGCN.zjr_msr.MSRGCN
+
+# optim
+lr: 2e-4
+lr_decay: 0.98
+n_epoch: 5000
+leaky_c: 0.2 # 原版为0.2
+optimizer: torch.optim.Adam
+train_loss: losses.loss.L2NormLoss_train
+test_loss: losses.loss.L2NormLoss_test
+
+# train
+# ml_weight: 0.3 # 这个是给zjr添加到原有二范数损失的measure度量损失中调整比例的超参，先给个1看一下
+p_dropout: 0.1
+train_batch_size: 8
+test_batch_size: 256
+input_n: 10
+output_n: 25
+seq_len: 35 # input_n + output_n
+dct_n: 35 # 与sqe_len相同
+frame_ids: [1, 3, 7, 9, 13, 24]
+t_features: 256
+
+# test
+
+# computer
+visible_cuda: '1'
+device: 'cuda:0'
+num_workers: 1
+seed: 3450 # 设置torch随机种子
