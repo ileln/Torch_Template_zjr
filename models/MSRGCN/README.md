@@ -6,4 +6,6 @@ trans_msr.py文件是在MSRGCN的基础上添加了一个transformer的decoder�
 
 ## zjr_msr
 
-开始写一个zjr的decoder，看看能不能进一步涨点。 同时关于聚类的思考不能停，要同步跟进。
+开始写一个zjr的decoder，看看能不能进一步涨点。 同时关于聚类的思考不能停，要同步跟进。\
+
+参数量变成了9.5M
