@@ -1,3 +1,7 @@
+wandb_key: fbd8bd3a0f05a3323688c35c2cd5c5bc92a0f490
+wandb_project: MSRGCN
+
+
 work_dir: work_dir/MSRGCN/h36m/trans # 结果保存路径
 
 is_load: 0
