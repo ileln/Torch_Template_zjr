@@ -14,7 +14,8 @@ class STDecoderLayer(nn.Module):
         self.t_features = t_features
         
         self.feedforward = nn.Sequential(
-            GC_Block(in_features=self.final_out_noden*3, p_dropout=self.p_dropout, node_n=t_features, leaky_c=self.leaky_c),
+            GC_Block(in_features=self.t_features, p_dropout=self.p_dropout, node_n=self.final_out_noden*3, leaky_c=self.leaky_c),
+            # GC_Block(in_features=self.final_out_noden*3, p_dropout=self.p_dropout, node_n=self.t_features, leaky_c=self.leaky_c)
             
         )
         self.attention = nn.MultiheadAttention(embed_dim=self.t_features, num_heads=4, batch_first=True)
@@ -25,10 +26,10 @@ class STDecoderLayer(nn.Module):
         attention_data, _ = self.attention(input, input, input, need_weights=False, average_attn_weights=False)
         attention_data = attention_data + input
         normed_attention_data = self.first_norm(attention_data)
-        normed_attention_data = normed_attention_data.permute(0, 2, 1)
+        # normed_attention_data = normed_attention_data.permute(0, 2, 1)
         forward_data = self.feedforward(normed_attention_data)
         forward_data = forward_data + normed_attention_data
-        forward_data = forward_data.permute(0, 2, 1)
+        # forward_data = forward_data.permute(0, 2, 1)
         normed_forward_data = self.second_norm(forward_data)
         
         return normed_forward_data
