@@ -5,6 +5,7 @@ import pprint
 import argparse
 import pandas as pd
 import wandb
+import datetime
 
 from runner import Runner
 
@@ -60,9 +61,38 @@ elif args.exp_name == "cmu":
 
 if args.is_load:
     runner.restore(args.modle_path)
+    file = open(args.modle_path+"run_id.txt", 'r')
+    run_id = file.readlines()
+    run = wandb.init(project=args.wandb_project, id=run_id, resume='must')
 
 if args.is_train:
+    # wandb设置
+    nowtime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    wandb.init(project=args.wandb_project, config=vars(args), name=nowtime, save_code=True)
+    run_id = wandb.run.id
+    with open(args.work_dir+"run_id.txt", 'w') as f:
+        f.write(run_id)
+    
+    # wandb版本管理
+    # wandb保存配置文件
+    arti_config = wandb.Artifact("config", type='yaml')
+    arti_config.add_file(args.work_dir + "/config.yaml")
+    wandb.log_artifact(arti_config)
+    # wandb保存模型文件
+    arti_modle = wandb.Artifact("modle", type='code')
+    x = args.model.split('.')
+    arti_modle.add_file(x[0] + '/' + x[1] + '/' + x[2] + '.py')
+    wandb.log_artifact(arti_modle)
+    # wandb保存运行文件
+    arti_runner = wandb.Artifact("runner", type='code')
+    arti_runner.add_file("runner/runner.py")
+    wandb.log_artifact(arti_runner)
+    
+    # 开始训练
     runner.run()
+    
+    # wandb结束
+    wandb.finish()
 else:
     errs = runner.test()
 
