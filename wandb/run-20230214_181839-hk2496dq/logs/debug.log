@@ -1,0 +1,25 @@
+2023-02-14 18:18:39,652 INFO    MainThread:63965 [wandb_setup.py:_flush():68] Configure stats pid to 63965
+2023-02-14 18:18:39,652 INFO    MainThread:63965 [wandb_setup.py:_flush():68] Loading settings from /home/zhangjinrong/.config/wandb/settings
+2023-02-14 18:18:39,652 INFO    MainThread:63965 [wandb_setup.py:_flush():68] Loading settings from /home/zhangjinrong/program/Torch_Template/wandb/settings
+2023-02-14 18:18:39,652 INFO    MainThread:63965 [wandb_setup.py:_flush():68] Loading settings from environment variables: {'_require_service': 'True', 'api_key': '***REDACTED***'}
+2023-02-14 18:18:39,652 INFO    MainThread:63965 [wandb_setup.py:_flush():68] Inferring run settings from compute environment: {'program_relpath': 'main.py', 'program': '/home/zhangjinrong/program/Torch_Template/main.py'}
+2023-02-14 18:18:39,652 INFO    MainThread:63965 [wandb_init.py:_log_setup():492] Logging user logs to /home/zhangjinrong/program/Torch_Template/wandb/run-20230214_181839-hk2496dq/logs/debug.log
+2023-02-14 18:18:39,652 INFO    MainThread:63965 [wandb_init.py:_log_setup():493] Logging internal logs to /home/zhangjinrong/program/Torch_Template/wandb/run-20230214_181839-hk2496dq/logs/debug-internal.log
+2023-02-14 18:18:39,652 INFO    MainThread:63965 [wandb_init.py:init():532] calling init triggers
+2023-02-14 18:18:39,652 INFO    MainThread:63965 [wandb_init.py:init():538] wandb.init called with sweep_config: {}
+config: {'wandb_key': 'fbd8bd3a0f05a3323688c35c2cd5c5bc92a0f490', 'wandb_project': 'MSRGCN', 'work_dir': 'work_dir/MSRGCN/h36m/test2', 'is_load': 0, 'is_train': 1, 'exp_name': 'h36m', 'feeder': 'feeder.MSRGCN.datas.h36m.H36MMotionDataset', 'path_to_data': '/share/zhangjinrong//human_motion_prediction/data/h3.6m/dataset', 'train_manner': 'all', 'test_manner': 'all', 'subs': [[1], [5], [11]], 'train_split': 0, 'teat_split': 1, 'validation_split': 2, 'sample_rate': 2, 'debug_step': 1, 'Index2212': [[0], [1, 2, 3], [4], [5, 6, 7], [8, 9], [10, 11], [12], [13], [14, 15, 16], [17], [18], [19, 20, 21]], 'Index127': [[0, 1], [2, 3], [4, 5], [6, 7], [7, 8], [9, 10], [10, 11]], 'Index74': [[0, 2], [1, 2], [3, 4], [5, 6]], 'origin_noden': 32, 'final_out_noden': 22, 'dim_used_3d': [2, 3, 4, 5, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 19, 21, 22, 25, 26, 27, 29, 30], 'dim_repeat_22': [9, 9, 14, 16, 19, 21], 'dim_repeat_32': [16, 24, 20, 23, 28, 31], 'I22_plot': [8, 0, 1, 2, 8, 4, 5, 6, 8, 9, 10, 9, 12, 13, 14, 14, 9, 17, 18, 19, 19], 'J22_plot': [0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21], 'LR22_plot': [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0], 'model': 'models.MSRGCN.msrgcn.MSRGCN', 'lr': 0.0002, 'lr_decay': 0.98, 'n_epoch': 5000, 'leaky_c': 0.2, 'optimizer': 'torch.optim.Adam', 'train_loss': 'losses.loss.L2NormLoss_train', 'test_loss': 'losses.loss.L2NormLoss_test', 'p_dropout': 0.1, 'train_batch_size': 16, 'test_batch_size': 256, 'input_n': 10, 'output_n': 25, 'seq_len': 35, 'dct_n': 35, 'frame_ids': [1, 3, 7, 9, 13, 24], 'visible_cuda': '0', 'device': 'cuda:0', 'num_workers': 1, 'seed': 3450, 'config': 'config/MSRGCN/h36m/demo.yaml', 'num_works': 8, 'modle_path': ''}
+2023-02-14 18:18:39,652 INFO    MainThread:63965 [wandb_init.py:init():588] starting backend
+2023-02-14 18:18:39,652 INFO    MainThread:63965 [wandb_init.py:init():592] setting up manager
+2023-02-14 18:18:39,653 INFO    MainThread:63965 [backend.py:_multiprocessing_setup():106] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2023-02-14 18:18:39,653 INFO    MainThread:63965 [wandb_init.py:init():599] backend started and connected
+2023-02-14 18:18:39,656 INFO    MainThread:63965 [wandb_init.py:init():687] updated telemetry
+2023-02-14 18:18:39,658 INFO    MainThread:63965 [wandb_init.py:init():727] communicating run to backend with 60.0 second timeout
+2023-02-14 18:18:40,461 INFO    MainThread:63965 [wandb_run.py:_on_init():2134] communicating current version
+2023-02-14 18:18:40,983 INFO    MainThread:63965 [wandb_run.py:_on_init():2143] got version response 
+2023-02-14 18:18:40,983 INFO    MainThread:63965 [wandb_init.py:init():775] starting run threads in backend
+2023-02-14 18:18:42,120 INFO    MainThread:63965 [wandb_run.py:_console_start():2114] atexit reg
+2023-02-14 18:18:42,120 INFO    MainThread:63965 [wandb_run.py:_redirect():1969] redirect: SettingsConsole.WRAP_RAW
+2023-02-14 18:18:42,120 INFO    MainThread:63965 [wandb_run.py:_redirect():2034] Wrapping output streams.
+2023-02-14 18:18:42,120 INFO    MainThread:63965 [wandb_run.py:_redirect():2059] Redirects installed.
+2023-02-14 18:18:42,121 INFO    MainThread:63965 [wandb_init.py:init():817] run started, returning control to user process
+2023-02-14 18:18:57,302 WARNING MsgRouterThr:63965 [router.py:message_loop():77] message_loop has been closed

@@ -1,0 +1,91 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1878/1878 [01:20<00:00, 23.20it/s]
+  0%|▌                                                                                                                                                                                                                                                                                | 4/1878 [00:00<01:43, 18.16it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 76%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▎                                                                | 1428/1878 [01:02<00:19, 22.77it/s]
+Traceback (most recent call last):
+  File "/home/zhangjinrong/program/Torch_Template/main.py", line 92, in <module>
+    runner.run()
+  File "/home/zhangjinrong/program/Torch_Template/runner/runner.py", line 203, in run
+    average_train_loss = self.train(epoch)
+  File "/home/zhangjinrong/program/Torch_Template/runner/runner.py", line 127, in train
+    self.optimizer.step()
+  File "/home/zhangjinrong/anaconda3/envs/torch/lib/python3.10/site-packages/torch/optim/optimizer.py", line 140, in wrapper
+    out = func(*args, **kwargs)
+  File "/home/zhangjinrong/anaconda3/envs/torch/lib/python3.10/site-packages/torch/optim/optimizer.py", line 23, in _use_grad
+    ret = func(self, *args, **kwargs)
+  File "/home/zhangjinrong/anaconda3/envs/torch/lib/python3.10/site-packages/torch/optim/adam.py", line 234, in step
+    adam(params_with_grad,
+  File "/home/zhangjinrong/anaconda3/envs/torch/lib/python3.10/site-packages/torch/optim/adam.py", line 300, in adam
+    func(params,
+  File "/home/zhangjinrong/anaconda3/envs/torch/lib/python3.10/site-packages/torch/optim/adam.py", line 363, in _single_tensor_adam
+    exp_avg.mul_(beta1).add_(grad, alpha=1 - beta1)
+KeyboardInterrupt

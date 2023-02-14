@@ -192,8 +192,7 @@ class Runner():
         return total_loss
     
     def run(self):
-        nowtime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        wandb.init(project=self.args.wandb_project, config=vars(self.args), name=nowtime, save_code=True)
+        
         for epoch in range(self.start_epoch, self.args.n_epoch + 1):
 
             if epoch % 2 == 0:
@@ -223,4 +222,4 @@ class Runner():
                 loss_l2_test = self.test(epoch)
 
                 print('Epoch: {},  LR: {}, Current err test avg: {}'.format(epoch, self.lr, np.mean(loss_l2_test)))
-        wandb.finish()
+        
