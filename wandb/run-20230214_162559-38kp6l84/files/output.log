@@ -1,0 +1,204 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1878/1878 [02:38<00:00, 11.86it/s]
+  1%|███                                                                                                                                                                                                                                                                             | 21/1878 [00:01<02:35, 11.95it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1878/1878 [02:39<00:00, 11.76it/s]
+  1%|███                                                                                                                                                                                                                                                                             | 21/1878 [00:01<02:35, 11.96it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 26%|███████████████████████████████████████████████████████████████████████▌                                                                                                                                                                                                       | 496/1878 [00:42<01:57, 11.76it/s]
+Traceback (most recent call last):
+  File "/home/zhangjinrong/program/Torch_Template/main.py", line 65, in <module>
+    runner.run()
+  File "/home/zhangjinrong/program/Torch_Template/runner/runner.py", line 204, in run
+    average_train_loss = self.train(epoch)
+  File "/home/zhangjinrong/program/Torch_Template/runner/runner.py", line 103, in train
+    outputs = self.model(inputs) # B * 66 * 35
+  File "/home/zhangjinrong/anaconda3/envs/torch/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/zhangjinrong/program/Torch_Template/models/MSRGCN/msrgcn.py", line 183, in forward
+    enhance_bottom = self.fourth_enhance(fourth_left)  # 8, 12, 512
+  File "/home/zhangjinrong/anaconda3/envs/torch/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/zhangjinrong/program/Torch_Template/models/MSRGCN/layers.py", line 116, in forward
+    y = self.gcn(x)
+  File "/home/zhangjinrong/anaconda3/envs/torch/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/zhangjinrong/program/Torch_Template/models/MSRGCN/layers.py", line 46, in forward
+    support = torch.matmul(input, self.weight)
+KeyboardInterrupt

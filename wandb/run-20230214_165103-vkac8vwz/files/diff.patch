@@ -1,0 +1,150 @@
+diff --git a/__pycache__/tools.cpython-310.pyc b/__pycache__/tools.cpython-310.pyc
+index f5d8556..dc1b158 100644
+Binary files a/__pycache__/tools.cpython-310.pyc and b/__pycache__/tools.cpython-310.pyc differ
+diff --git a/config/MSRGCN/h36m/demo.yaml b/config/MSRGCN/h36m/demo.yaml
+index 6df8227..2e409cb 100644
+--- a/config/MSRGCN/h36m/demo.yaml
++++ b/config/MSRGCN/h36m/demo.yaml
+@@ -1,3 +1,7 @@
++wandb_key: fbd8bd3a0f05a3323688c35c2cd5c5bc92a0f490
++wandb_project: MSRGCN
++
++
+ work_dir: work_dir/MSRGCN/h36m/test1 # 结果保存路径
+ 
+ is_load: 0
+@@ -8,7 +12,7 @@ feeder: feeder.MSRGCN.datas.h36m.H36MMotionDataset
+ path_to_data: /share/zhangjinrong//human_motion_prediction/data/h3.6m/dataset
+ train_manner: "all" # ["walking", "eating", "smoking", "discussion", "directions","greeting", "phoning", "posing", "purchases", "sitting", "sittingdown", "takingphoto", "waiting", "walkingdog", "walkingtogether"]
+ test_manner: "all" # ["walking", "eating", "smoking", "discussion", "directions","greeting", "phoning", "posing", "purchases", "sitting", "sittingdown", "takingphoto", "waiting", "walkingdog", "walkingtogether"]
+-subs: [[1, 6, 7, 8, 9], [5], [11]] # 对应data_path下的数据文件夹[[1, 6, 7, 8, 9], [5], [11]]
++subs: [[1], [5], [11]] # 对应data_path下的数据文件夹[[1, 6, 7, 8, 9], [5], [11]]
+ train_split: 0 # 对应subs中的选项
+ teat_split: 1
+ validation_split: 2
+diff --git a/feeder/MSRGCN/datas/__pycache__/__init__.cpython-310.pyc b/feeder/MSRGCN/datas/__pycache__/__init__.cpython-310.pyc
+index c63f246..dbf1109 100644
+Binary files a/feeder/MSRGCN/datas/__pycache__/__init__.cpython-310.pyc and b/feeder/MSRGCN/datas/__pycache__/__init__.cpython-310.pyc differ
+diff --git a/feeder/MSRGCN/datas/__pycache__/data_utils.cpython-310.pyc b/feeder/MSRGCN/datas/__pycache__/data_utils.cpython-310.pyc
+index 1e6da7b..1abd919 100644
+Binary files a/feeder/MSRGCN/datas/__pycache__/data_utils.cpython-310.pyc and b/feeder/MSRGCN/datas/__pycache__/data_utils.cpython-310.pyc differ
+diff --git a/feeder/MSRGCN/datas/__pycache__/dct.cpython-310.pyc b/feeder/MSRGCN/datas/__pycache__/dct.cpython-310.pyc
+index d883417..e9781e8 100644
+Binary files a/feeder/MSRGCN/datas/__pycache__/dct.cpython-310.pyc and b/feeder/MSRGCN/datas/__pycache__/dct.cpython-310.pyc differ
+diff --git a/feeder/MSRGCN/datas/__pycache__/draw_pictures.cpython-310.pyc b/feeder/MSRGCN/datas/__pycache__/draw_pictures.cpython-310.pyc
+index 9ac4423..3b41d84 100644
+Binary files a/feeder/MSRGCN/datas/__pycache__/draw_pictures.cpython-310.pyc and b/feeder/MSRGCN/datas/__pycache__/draw_pictures.cpython-310.pyc differ
+diff --git a/feeder/MSRGCN/datas/__pycache__/forward_kinematics.cpython-310.pyc b/feeder/MSRGCN/datas/__pycache__/forward_kinematics.cpython-310.pyc
+index 265a950..ae38a75 100644
+Binary files a/feeder/MSRGCN/datas/__pycache__/forward_kinematics.cpython-310.pyc and b/feeder/MSRGCN/datas/__pycache__/forward_kinematics.cpython-310.pyc differ
+diff --git a/feeder/MSRGCN/datas/__pycache__/multi_scale.cpython-310.pyc b/feeder/MSRGCN/datas/__pycache__/multi_scale.cpython-310.pyc
+index ec248b7..75f5d5a 100644
+Binary files a/feeder/MSRGCN/datas/__pycache__/multi_scale.cpython-310.pyc and b/feeder/MSRGCN/datas/__pycache__/multi_scale.cpython-310.pyc differ
+diff --git a/feeder/MSRGCN/datas/cmu/__pycache__/__init__.cpython-310.pyc b/feeder/MSRGCN/datas/cmu/__pycache__/__init__.cpython-310.pyc
+index 3f64e97..c93058e 100644
+Binary files a/feeder/MSRGCN/datas/cmu/__pycache__/__init__.cpython-310.pyc and b/feeder/MSRGCN/datas/cmu/__pycache__/__init__.cpython-310.pyc differ
+diff --git a/feeder/MSRGCN/datas/cmu/__pycache__/motiondataset.cpython-310.pyc b/feeder/MSRGCN/datas/cmu/__pycache__/motiondataset.cpython-310.pyc
+index 3734fcd..08a4116 100644
+Binary files a/feeder/MSRGCN/datas/cmu/__pycache__/motiondataset.cpython-310.pyc and b/feeder/MSRGCN/datas/cmu/__pycache__/motiondataset.cpython-310.pyc differ
+diff --git a/feeder/MSRGCN/datas/h36m/__pycache__/__init__.cpython-310.pyc b/feeder/MSRGCN/datas/h36m/__pycache__/__init__.cpython-310.pyc
+index 79aefd7..f4c290e 100644
+Binary files a/feeder/MSRGCN/datas/h36m/__pycache__/__init__.cpython-310.pyc and b/feeder/MSRGCN/datas/h36m/__pycache__/__init__.cpython-310.pyc differ
+diff --git a/feeder/MSRGCN/datas/h36m/__pycache__/motiondataset.cpython-310.pyc b/feeder/MSRGCN/datas/h36m/__pycache__/motiondataset.cpython-310.pyc
+index 9725f32..7915171 100644
+Binary files a/feeder/MSRGCN/datas/h36m/__pycache__/motiondataset.cpython-310.pyc and b/feeder/MSRGCN/datas/h36m/__pycache__/motiondataset.cpython-310.pyc differ
+diff --git a/feeder/MSRGCN/datas/h36m/__pycache__/motiondataset_s.cpython-310.pyc b/feeder/MSRGCN/datas/h36m/__pycache__/motiondataset_s.cpython-310.pyc
+index fa1bd68..6590d6a 100644
+Binary files a/feeder/MSRGCN/datas/h36m/__pycache__/motiondataset_s.cpython-310.pyc and b/feeder/MSRGCN/datas/h36m/__pycache__/motiondataset_s.cpython-310.pyc differ
+diff --git a/losses/__pycache__/loss.cpython-310.pyc b/losses/__pycache__/loss.cpython-310.pyc
+index ffc035b..d6e1c54 100644
+Binary files a/losses/__pycache__/loss.cpython-310.pyc and b/losses/__pycache__/loss.cpython-310.pyc differ
+diff --git a/main.py b/main.py
+index 76e5a03..a4c00b8 100644
+--- a/main.py
++++ b/main.py
+@@ -4,6 +4,7 @@ import numpy as np
+ import pprint
+ import argparse
+ import pandas as pd
++import wandb
+ 
+ from runner import Runner
+ 
+@@ -44,7 +45,10 @@ cuda = args.device.split(':')
+ os.environ["CUDA_VISIBLE_DEVICES"] = args.visible_cuda # 全局修改模型占用的显卡
+ os.environ['CUDA_LAUNCH_BLOCKING'] = args.visible_cuda
+ # os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
++os.environ['WANDB_API_KEY'] = args.wandb_key # 设置wandb的API的key
+ 
++# wandb登录
++wandb.login()
+ 
+ # 运行器初始化
+ runner = Runner(args)
+diff --git a/models/MSRGCN/__pycache__/layers.cpython-310.pyc b/models/MSRGCN/__pycache__/layers.cpython-310.pyc
+index fcb9d38..df8418f 100644
+Binary files a/models/MSRGCN/__pycache__/layers.cpython-310.pyc and b/models/MSRGCN/__pycache__/layers.cpython-310.pyc differ
+diff --git a/models/MSRGCN/__pycache__/msrgcn.cpython-310.pyc b/models/MSRGCN/__pycache__/msrgcn.cpython-310.pyc
+index be265e2..6a8e469 100644
+Binary files a/models/MSRGCN/__pycache__/msrgcn.cpython-310.pyc and b/models/MSRGCN/__pycache__/msrgcn.cpython-310.pyc differ
+diff --git a/runner/__pycache__/__init__.cpython-310.pyc b/runner/__pycache__/__init__.cpython-310.pyc
+index 3cf0530..1d40ecd 100644
+Binary files a/runner/__pycache__/__init__.cpython-310.pyc and b/runner/__pycache__/__init__.cpython-310.pyc differ
+diff --git a/runner/__pycache__/runner.cpython-310.pyc b/runner/__pycache__/runner.cpython-310.pyc
+index e288b3e..6e0ff06 100644
+Binary files a/runner/__pycache__/runner.cpython-310.pyc and b/runner/__pycache__/runner.cpython-310.pyc differ
+diff --git a/runner/runner.py b/runner/runner.py
+index a5c7741..c25a7c6 100644
+--- a/runner/runner.py
++++ b/runner/runner.py
+@@ -6,6 +6,8 @@ from tensorboardX import SummaryWriter
+ import numpy as np
+ from tqdm import tqdm
+ import os
++import datetime
++import wandb
+ 
+ from tools import import_class, lr_decay
+ from feeder.MSRGCN.datas import H36MMotionDataset, get_dct_matrix, reverse_dct_torch, define_actions,draw_pic_gt_pred
+@@ -117,6 +119,7 @@ class Runner():
+                 else:
+                     losses = losses + loss_curr
+                 self.summary.add_scalar(f"Loss/{k}", loss_curr, self.global_step)
++                wandb.log({f"Loss/{k}": loss_curr, "global_step": self.global_step}) # 添加wandb.log
+ 
+             self.optimizer.zero_grad()
+             losses.backward()
+@@ -179,18 +182,24 @@ class Runner():
+             total_loss[act_idx] /= count
+             for fidx, frame in enumerate(frame_ids):
+                 self.summary.add_scalar(f"Test/{act}/{frame}", total_loss[act_idx][fidx], epoch)
++                wandb.log({f"Test/{act}_{frame}": total_loss[act_idx][fidx]}, step=epoch)
+ 
+         self.summary.add_scalar("Test/average", np.mean(total_loss), epoch)
++        wandb.log({"Test/average": np.mean(total_loss)}, step=epoch)
+         for fidx, frame in enumerate(frame_ids):
+             self.summary.add_scalar(f"Test/avg{frame}", np.mean(total_loss[:, fidx]), epoch)
++            wandb.log({f"Test/avg{frame}": np.mean(total_loss[:, fidx])}, step=epoch)
+         return total_loss
+     
+     def run(self):
++        nowtime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
++        wandb.init(project=self.args.wandb_project, config=vars(self.args), name=nowtime, save_code=True)
+         for epoch in range(self.start_epoch, self.args.n_epoch + 1):
+ 
+             if epoch % 2 == 0:
+                 self.lr = lr_decay(self.optimizer, self.lr, self.args.lr_decay)
+             self.summary.add_scalar("LR", self.lr, epoch)
++            wandb.log({"LR": self.lr, "epoch": epoch})
+ 
+             average_train_loss = self.train(epoch)
+             # # num = 1
+@@ -213,4 +222,5 @@ class Runner():
+             if epoch % 1 == 0:
+                 loss_l2_test = self.test(epoch)
+ 
+-                print('Epoch: {},  LR: {}, Current err test avg: {}'.format(epoch, self.lr, np.mean(loss_l2_test)))
+\ No newline at end of file
++                print('Epoch: {},  LR: {}, Current err test avg: {}'.format(epoch, self.lr, np.mean(loss_l2_test)))
++        wandb.finish()
+\ No newline at end of file
