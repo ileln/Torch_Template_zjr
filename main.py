@@ -4,6 +4,7 @@ import numpy as np
 import pprint
 import argparse
 import pandas as pd
+import wandb
 
 from runner import Runner
 
@@ -44,7 +45,10 @@ cuda = args.device.split(':')
 os.environ["CUDA_VISIBLE_DEVICES"] = args.visible_cuda # 全局修改模型占用的显卡
 os.environ['CUDA_LAUNCH_BLOCKING'] = args.visible_cuda
 # os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+os.environ['WANDB_API_KEY'] = args.wandb_key # 设置wandb的API的key
 
+# wandb登录
+wandb.login()
 
 # 运行器初始化
 runner = Runner(args)

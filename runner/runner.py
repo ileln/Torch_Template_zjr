@@ -6,6 +6,8 @@ from tensorboardX import SummaryWriter
 import numpy as np
 from tqdm import tqdm
 import os
+import datetime
+import wandb
 
 from tools import import_class, lr_decay
 from feeder.MSRGCN.datas import H36MMotionDataset, get_dct_matrix, reverse_dct_torch, define_actions,draw_pic_gt_pred
@@ -117,6 +119,7 @@ class Runner():
                 else:
                     losses = losses + loss_curr
                 self.summary.add_scalar(f"Loss/{k}", loss_curr, self.global_step)
+                wandb.log({f"Loss/{k}": loss_curr, "global_step": self.global_step}) # 添加wandb.log
 
             self.optimizer.zero_grad()
             losses.backward()
@@ -179,18 +182,24 @@ class Runner():
             total_loss[act_idx] /= count
             for fidx, frame in enumerate(frame_ids):
                 self.summary.add_scalar(f"Test/{act}/{frame}", total_loss[act_idx][fidx], epoch)
+                wandb.log({f"Test/{act}_{frame}": total_loss[act_idx][fidx]})
 
         self.summary.add_scalar("Test/average", np.mean(total_loss), epoch)
+        wandb.log({"Test_average/total": np.mean(total_loss)})
         for fidx, frame in enumerate(frame_ids):
             self.summary.add_scalar(f"Test/avg{frame}", np.mean(total_loss[:, fidx]), epoch)
+            wandb.log({f"Test_average/avg{frame}": np.mean(total_loss[:, fidx])})
         return total_loss
     
     def run(self):
+        nowtime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        wandb.init(project=self.args.wandb_project, config=vars(self.args), name=nowtime, save_code=True)
         for epoch in range(self.start_epoch, self.args.n_epoch + 1):
 
             if epoch % 2 == 0:
                 self.lr = lr_decay(self.optimizer, self.lr, self.args.lr_decay)
             self.summary.add_scalar("LR", self.lr, epoch)
+            wandb.log({"LR": self.lr, "epoch": epoch})
 
             average_train_loss = self.train(epoch)
             # # num = 1
@@ -214,3 +223,4 @@ class Runner():
                 loss_l2_test = self.test(epoch)
 
                 print('Epoch: {},  LR: {}, Current err test avg: {}'.format(epoch, self.lr, np.mean(loss_l2_test)))
+        wandb.finish()
