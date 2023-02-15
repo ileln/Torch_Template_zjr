@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/home/zhangjinrong/program/Torch_Template/main.py", line 88, in <module>
-    arti_config.add_file("/runner/runner.py")
-  File "/home/zhangjinrong/anaconda3/envs/torch/lib/python3.10/site-packages/wandb/sdk/wandb_artifacts.py", line 420, in add_file
-    self._ensure_can_add()
-  File "/home/zhangjinrong/anaconda3/envs/torch/lib/python3.10/site-packages/wandb/sdk/wandb_artifacts.py", line 740, in _ensure_can_add
-    raise ValueError("Can't add to finalized artifact.")
-ValueError: Can't add to finalized artifact.

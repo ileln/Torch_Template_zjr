@@ -1,6 +1,0 @@
-Traceback (most recent call last):
-  File "/home/zhangjinrong/program/Torch_Template/main.py", line 79, in <module>
-    arti_config.add_file(args.work_dir + "config.yaml")
-  File "/home/zhangjinrong/anaconda3/envs/torch/lib/python3.10/site-packages/wandb/sdk/wandb_artifacts.py", line 422, in add_file
-    raise ValueError("Path is not a file: %s" % local_path)
-ValueError: Path is not a file: work_dir/MSRGCN/h36m/test2config.yaml
