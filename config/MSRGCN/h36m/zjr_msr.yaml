@@ -43,7 +43,7 @@ model: models.MSRGCN.zjr_msr.MSRGCN
 # optim
 lr: 2e-4
 lr_decay: 0.98
-n_epoch: 5000
+n_epoch: 60
 leaky_c: 0.2 # 原版为0.2
 optimizer: torch.optim.Adam
 train_loss: losses.loss.L2NormLoss_train
