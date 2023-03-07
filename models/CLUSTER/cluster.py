@@ -188,7 +188,7 @@ class ClusterNet(nn.Module):
         z, _ = self.tae(x.squeeze().unsqueeze(1).detach())
         z_np = z.detach().cpu()
         assignements = AgglomerativeClustering(
-            n_clusters=2, linkage="complete", affinity="precomputed"
+            n_clusters=self.n_clusters, linkage="complete", affinity="precomputed"
         ).fit_predict(
             compute_similarity(z_np, z_np, similarity=self.similarity)
         )
