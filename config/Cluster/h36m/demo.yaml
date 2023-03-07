@@ -57,6 +57,7 @@ dct_n: 35 # 与sqe_len相同
 frame_ids: [1, 3, 7, 9, 13, 24]
 input_feature: 35
 hidden_feature: 64
+n_clusters: 10
 
 # test
 
@@ -64,4 +65,4 @@ hidden_feature: 64
 visible_cuda: '1'
 device: 'cuda:0'
 num_workers: 1
-seed: 3450 # 设置torch随机种子
+seed: 42 # 设置torch随机种子
