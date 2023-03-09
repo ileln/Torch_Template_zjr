@@ -9,7 +9,7 @@ import datetime
 
 from runner import Runner
 
-from tools import get_args, seed_torch, save_args
+from tools import get_args, seed_torch, save_args, import_class
 from feeder.MSRGCN.datas import define_actions, define_actions_cmu
 
 # 读取参数
@@ -54,6 +54,7 @@ os.environ['WANDB_API_KEY'] = args.wandb_key # 设置wandb的API的key
 wandb.login()
 
 # 运行器初始化
+Runner = import_class(args.runner)
 runner = Runner(args)
 
 if args.exp_name == "h36m":

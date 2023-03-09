@@ -4,6 +4,7 @@ wandb_project: MSRGCN
 
 work_dir: work_dir/MSRGCN/h36m/trans_batch8 # 结果保存路径
 
+runner: runner.prediction_runner
 is_load: 0
 is_train: 1
 # feeder
