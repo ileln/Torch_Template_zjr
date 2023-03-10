@@ -3,7 +3,7 @@ wandb_project: GISLR
 
 work_dir: work_dir/MSRGCN/h36m/test1 # 结果保存路径
 
-runner: runner.classfication_runner
+runner: runner.prediction_runner
 is_load: 0
 is_train: 1
 # feeder
