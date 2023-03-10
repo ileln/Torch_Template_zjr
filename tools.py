@@ -93,9 +93,9 @@ def get_args(parser):
 def save_args(args):
     # 保存参数
     arg_dict = vars(args)
-    if not os.path.exists(args.work_dir):
-        os.makedirs(args.work_dir)
-    with open('{}/config.yaml'.format(args.work_dir), 'w') as f:
+    if not os.path.exists(str(args.work_dir)):
+        os.makedirs(str(args.work_dir))
+    with open('{}/config.yaml'.format(str(args.work_dir)), 'w') as f:
         f.write(f"# command line: {' '.join(sys.argv)}\n\n")
         yaml.dump(arg_dict, f)
 
