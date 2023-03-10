@@ -1,0 +1,37 @@
+# command line: main.py --config config/GISLR/demo.yaml
+
+config: config/GISLR/demo.yaml
+dct_n: 35
+debug_step: 1
+device: cuda:0
+exp_name: gislr
+feeder: feeder.GISLR.motiondataset.GislrDataset
+input_n: 10
+is_load: 0
+is_train: 1
+kflod_random_state: 42
+kflod_test_size: 0.2
+leaky_c: null
+lr: 0.0002
+lr_decay: 0.98
+model: models.GISLR.test.Model
+modle_path: ''
+n_epoch: null
+num_workers: 1
+num_works: 8
+optimizer: torch.optim.Adam
+output_n: 25
+p_dropout: 0.1
+path_to_data: /share/kaggle/asl-signs/
+runner: runner.classfication_runner.Runner
+sample_rate: 2
+seed: 3450
+seq_len: 35
+test_batch_size: 256
+test_loss: torch.nn.CrossEntropyLoss
+train_batch_size: 16
+train_loss: torch.nn.CrossEntropyLoss
+visible_cuda: '0'
+wandb_key: fbd8bd3a0f05a3323688c35c2cd5c5bc92a0f490
+wandb_project: GISLR
+work_dir: null
