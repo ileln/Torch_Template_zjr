@@ -7,7 +7,7 @@ import pandas as pd
 import wandb
 import datetime
 
-from runner import Runner
+# from runner import Runner
 
 from tools import get_args, seed_torch, save_args, import_class
 from feeder.MSRGCN.datas import define_actions, define_actions_cmu
@@ -15,13 +15,13 @@ from feeder.MSRGCN.datas import define_actions, define_actions_cmu
 # 读取参数
 parser = argparse.ArgumentParser(description='Arguments for running the scripts')
 parser = argparse.ArgumentParser(description='manual to this script')
-parser.add_argument('--config', type=str, default="config/MSRGCN/h36m/demo.yaml", help="配置文件")
-parser.add_argument('--work_dir', type=str, default='work_dir/MSRGCN/h36m/test', help="")
+parser.add_argument('--config', type=str, help="配置文件")
+parser.add_argument('--work_dir', type=str, default="work_dir/test", help="")
 parser.add_argument('--sample_rate', type=int, default=2, help="抽帧")
 parser.add_argument('--lr', type=float, default=2e-4, help="")
 parser.add_argument('--lr_decay', type=float, default=0.98, help="")
-parser.add_argument('--n_epoch', type=int, default=5000)
-parser.add_argument('--leaky_c', type=float, default=0.2)
+parser.add_argument('--n_epoch', type=int)
+parser.add_argument('--leaky_c', type=float)
 parser.add_argument('--p_dropout',type=float, default=0.1, help="")
 parser.add_argument('--train_batch_size', type=int, default=16, help="")
 parser.add_argument('--test_batch_size', type=int, default=256, help="")
@@ -88,7 +88,7 @@ if args.is_train:
     wandb.log_artifact(arti_modle)
     # wandb保存运行文件
     arti_runner = wandb.Artifact("runner", type='code')
-    arti_runner.add_file("runner/runner.py")
+    arti_runner.add_file("runner/classfication_runner.py")
     wandb.log_artifact(arti_runner)
     
     # 开始训练
