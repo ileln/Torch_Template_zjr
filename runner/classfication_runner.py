@@ -19,7 +19,7 @@ class Runner():
         # 参数
         self.args = args
         self.start_epoch = 1
-        self.best_accuracy = 0.3
+        self.best_accuracy = 0.2
         self.output_n = self.args.output_n
         Model = import_class(self.args.model) # 调用配置文件里设置的模型
         self.model = Model(**vars(self.args)) # 模型初始化
@@ -82,14 +82,17 @@ class Runner():
 
             self.global_step = (epoch - 1) * len(self.train_loader) + batch_idx + 1
 
-            
-            data = data.float().cuda(non_blocking=True, device=self.args.device)
-            label = label.cuda(non_blocking=True, device=self.args.device)
+            with torch.no_grad():
+                data = data.float().cuda(non_blocking=True, device=self.args.device)
+                label = label.float().cuda(non_blocking=True, device=self.args.device)
 
-            output = self.model(data) # B * 66 * 35
+            # print(data)
+            output = self.model(data)
+            # print(output)
 
             # loss
-            loss_curr = self.train_loss.forward(output, label)
+            # print(label.shape)
+            loss_curr = self.train_loss(output, label)
             self.summary.add_scalar(f"Loss", loss_curr, self.global_step)
             wandb.log({f"Loss_train": loss_curr, "global_step": self.global_step}) # 添加wandb.log
 
@@ -99,8 +102,11 @@ class Runner():
 
             average_loss += loss_curr.cpu().data.numpy()
             
-            value, predict_label = torch.max(output, 1)
-            acc = torch.mean((predict_label == label).float())
+            value, predict_label = torch.max(output.data, 1)
+            # print(predict_label)
+            label = torch.tensor(np.argmax(np.array(label.cpu()), axis=1))
+            # print(label)
+            acc = torch.mean((predict_label.cpu() == label.data).float())
             acc_value.append(acc.data.item())
             self.summary.add_scalar('acc_epoch_train', acc, self.global_step)
             wandb.log({f"acc_epoch_train": acc}) # 添加wandb.log
@@ -122,20 +128,22 @@ class Runner():
 
             self.global_step = (epoch - 1) * len(self.train_loader) + batch_idx + 1
 
-            data = data.float().cuda(non_blocking=True, device=self.args.device)
-            label = label.cuda(non_blocking=True, device=self.args.device)
+            with torch.no_grad():
+                data = data.float().cuda(non_blocking=True, device=self.args.device)
+                label = label.float().cuda(non_blocking=True, device=self.args.device)
 
             output = self.model(data)
 
             # loss
-            loss_curr = self.test_loss.forward(output, label)
+            loss_curr = self.test_loss(output, label)
             self.summary.add_scalar(f"Loss", loss_curr, self.global_step)
             wandb.log({f"Loss_test": loss_curr}) # 添加wandb.log
 
             average_loss += loss_curr.cpu().data.numpy()
             
             value, predict_label = torch.max(output, 1)
-            acc = torch.mean((predict_label == label).float())
+            label = torch.tensor(np.argmax(np.array(label.cpu()), axis=1))
+            acc = torch.mean((predict_label.cpu() == label).float())
             acc_value.append(acc.data.item())
             self.summary.add_scalar('acc_epoch_test', acc, self.global_step)
             wandb.log({f"acc_epoch_test": acc}) # 添加wandb.log
@@ -154,18 +162,18 @@ class Runner():
 
             average_train_loss, average_train_acc = self.train(epoch)
             wandb.log({"average_train_loss":average_train_loss, "average_train_acc":average_train_acc})
-            print('TRAIN: Epoch: {},  LR: {}, average_train_loss: {}, average_test_acc: {}'.format(epoch, self.lr, average_train_loss, average_train_acc))
-
-            if average_train_loss > self.best_accuracy:
-                self.best_accuracy = average_train_loss
-                if not os.path.exists(os.path.join(self.args.work_dir, "models")):
-                    os.makedirs(os.path.join(self.args.work_dir, "models"))
-                self.save(os.path.join(self.args.work_dir, "models",
-                                 '{}_in{}out{}dctn{}_best_epoch{}_err{:.4f}.pth'.format(self.args.exp_name, self.args.input_n, self.args.output_n, self.args.dct_n, epoch, average_train_loss)), self.best_accuracy, average_train_loss)
-
-            self.save(os.path.join(self.args.work_dir, "models", '{}_in{}out{}dctn{}_last.pth'.format(self.args.exp_name, self.args.input_n, self.args.output_n, self.args.dct_n)), self.best_accuracy, average_train_loss)
+            print('TRAIN: Epoch: {},  LR: {}, average_train_loss: {}, average_train_acc: {}'.format(epoch, self.lr, average_train_loss, average_train_acc))
 
             if epoch % 1 == 0:
                 average_test_loss, average_test_acc = self.test(epoch)
                 wandb.log({"average_test_loss":average_test_loss, "average_test_acc":average_test_acc})
                 print('TEST: Epoch: {},  LR: {}, average_test_loss: {}, average_test_acc: {}'.format(epoch, self.lr, average_test_loss, average_test_acc))
+            
+            if not os.path.exists(os.path.join(self.args.work_dir, "models")):
+                    os.makedirs(os.path.join(self.args.work_dir, "models"))
+            self.save(os.path.join(self.args.work_dir, "models", 'epoch{}_average_test_acc{}_last.pth'.format(epoch, average_test_acc)), self.best_accuracy, average_test_acc)
+            if average_test_acc > self.best_accuracy:
+                self.best_accuracy = average_test_acc
+                
+                self.save(os.path.join(self.args.work_dir, "models",
+                                'best_epoch{}_test_acc{:.4f}.pth'.format(epoch, average_test_acc)), self.best_accuracy, average_test_acc)
