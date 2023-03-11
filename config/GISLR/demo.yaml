@@ -30,7 +30,7 @@ test_loss: torch.nn.CrossEntropyLoss
 # train
 # ml_weight: 0.3 # 这个是给zjr添加到原有二范数损失的measure度量损失中调整比例的超参，先给个1看一下
 p_dropout: 0.1
-train_batch_size: 16
+train_batch_size: 128
 test_batch_size: 256
 
 # computer
