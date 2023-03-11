@@ -11,6 +11,7 @@ class Model(nn.Module):
         self.layer5 = nn.Linear(16 * 543, 250)
         self.relu = nn.ReLU()
         self.flatten = nn.Flatten(start_dim=2, end_dim=-1)
+        self.softmax = nn.Softmax(dim=1)
 
     def forward(self, x):
         x = self.relu(self.layer1(x))
@@ -19,4 +20,15 @@ class Model(nn.Module):
         x = self.relu(self.layer4(x))
         x = self.flatten(x)
         x = self.layer5(x)
+        x = torch.mean(x, dim=1)
+        # x = self.softmax(x)
         return x
+
+if __name__ == "__main__":
+    import torch
+    x = torch.randn(16, 24, 543, 3)
+    # print("hello")
+    print(x.shape)
+    f = Model()
+    y = f(x)
+    print(y.shape)
