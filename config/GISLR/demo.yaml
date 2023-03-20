@@ -12,6 +12,7 @@ feeder: feeder.GISLR.motiondataset.GislrDataset
 path_to_data: /share/kaggle/asl-signs/
 kflod_random_state: 42
 kflod_test_size: 0.2
+block_type: 'right_hand'
 
 debug_step: 1
 
@@ -36,5 +37,5 @@ test_batch_size: 256
 # computer
 visible_cuda: '0'
 device: 'cuda:0'
-num_workers: 1
+num_workers: 8
 seed: 3450 # 设置torch随机种子
